@@ -1,0 +1,118 @@
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+    background-color: #12161d;
+    color: #fff;
+}
+/* Button */
+.btn:focus, .btn:active{
+    outline:none !important;
+    box-shadow:none;
+}
+/* Hyper Link*/
+.no-a-decoration, .no-a-decoration:hover{
+    text-decoration:none;
+    color:inherit;
+}
+.e-bigger {
+    font-size: x-large;
+}
+
+/* Custom dark mode CSS for EJS Grid */
+#categories {
+    border: 2px solid #333; /* Dark border */
+    border-radius: 5px; /* Rounded corners */
+    background-color: #1a222b; /* Dark background */
+    color: #ffffff; /* White text color */
+}
+
+    /* Custom styling for header */
+    #categories .e-gridheader {
+        background-color: #12161d; /* Darker background for header */
+        border-bottom: 1px solid #333; /* Darker border */
+        font-weight: bold; /* Bold font for header */
+    }
+
+    /* Custom styling for grid rows */
+    #categories .e-row {
+        background-color: #1a222b; /* Dark background for rows */
+    }
+
+        /* Custom styling for alternate rows */
+        #categories .e-row.e-altrow {
+            background-color: #18202b; /* Slightly darker background for alternate rows */
+        }
+
+        /* Custom styling for grid cells */
+        #categories .e-row .e-cell {
+            padding: 10px; /* Add padding to cells */
+        }
+
+        /* Custom styling for grid action buttons */
+        #categories .e-row .e-rowcell .e-templatecell .e-tbar-btn {
+            background-color: #007bff; /* Blue background */
+            color: #ffffff; /* White text color */
+            border: none; /* Remove border */
+            border-radius: 3px; /* Rounded corners */
+            padding: 5px 10px; /* Add padding */
+            margin-right: 5px; /* Add margin between buttons */
+        }
+
+            /* Hover effect for action buttons */
+            #categories .e-row .e-rowcell .e-templatecell .e-tbar-btn:hover {
+                background-color: #0056b3; /* Darker blue on hover */
+            }
+
+
+/* Category Type Button Style*/
+.e-btn-group.custom-rbt-group {
+    width: 100%;
+    display: flex; /* Ensures buttons are in a row */
+}
+
+/* Style for each button within the button group */
+.e-btn-group.custom-rbt-group input.ebtn[type="radio"],
+.e-btn-group.custom-rbt-group label.ebtn {
+        width: 50%;
+        padding: 10px; /* Add padding for better appearance */
+        border: none; /* Remove default button border */
+        cursor: pointer; /* Change cursor to pointer on hover */
+        color: white; /* White text color */
+        text-align: center; /* Center text */
+        text-decoration: none; /* Remove default underline */
+        display: inline-block; /* Ensures button displays properly */
+        font-size: 16px; /* Font size */
+        transition-duration: 0.4s; /* Smooth transition */
+    }
+/* Hover effect */
+.e-btn-group.custom-rbt-group input.ebtn[type="radio"]:hover + label.ebtn,
+.e-btn-group.custom-rbt-group label.ebtn:hover {
+            background-color: #45a049; /* Darker green on hover */
+        }
+/* Specific styling for each button */
+#radioleft:checked + label.ebtn {
+    background-color: #ff0000; /* Red for expense when checked */
+}
+
+#radiomiddle:checked + label.ebtn {
+    background-color: #008000; /* Green for income when checked */
+}
+/* Widget */
+.widget{
+    border-radius: 1rem;
+    background-color: #1a222b;
+}
