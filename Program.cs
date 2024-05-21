@@ -21,6 +21,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
      option.LoginPath = "/Access/Login";
      option.ExpireTimeSpan = TimeSpan.FromMinutes(20);
  });
+/*
 //Session
 builder.Services.AddSession(
     options => {
@@ -29,6 +30,7 @@ builder.Services.AddSession(
         options.Cookie.IsEssential = true;
     }
 );
+*/
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -50,5 +52,5 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Access}/{action=Login}/{id?}");
-app.UseSession();
+//app.UseSession();
 app.Run();

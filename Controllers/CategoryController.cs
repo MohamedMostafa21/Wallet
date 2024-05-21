@@ -49,7 +49,7 @@ namespace Digital_Wallet.Controllers
 
             if (id == 0)
             {
-                return View(new Category());
+                return View(new Category { UserId = userId });
             }
             else
             {
@@ -65,7 +65,7 @@ namespace Digital_Wallet.Controllers
         // POST: Category/CreateOrEdit
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateOrEdit([Bind("CategoryId,Title,Type,Icon")] Category category)
+        public async Task<IActionResult> CreateOrEdit([Bind("CategoryId,Title,Type,Icon,UserId")] Category category)
         {
             var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             if (userId == null)

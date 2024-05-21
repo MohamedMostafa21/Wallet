@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Digital_Wallet.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240516181311_three")]
-    partial class three
+    [Migration("20240521132349_First")]
+    partial class First
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

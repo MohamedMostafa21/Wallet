@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Digital_Wallet.Data;
 using Digital_Wallet.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace Digital_Wallet.Controllers
 {
@@ -21,12 +22,12 @@ namespace Digital_Wallet.Controllers
             _context = context;
         }
 
-        [HttpGet]
         [AllowAnonymous]
-        public IActionResult Register ()
+        public IActionResult Register()
         {
             return View(new User());
         }
+
         [HttpPost]
         [AllowAnonymous]
         public IActionResult Register(User user)
@@ -44,13 +45,12 @@ namespace Digital_Wallet.Controllers
             return View(user);
         }
 
-        
-        // GET: User
         public async Task<IActionResult> Index()
         {
-            var Name = HttpContext.Session.GetString("Name");
-            return View(await _context.Users.ToListAsync());
+            var users = await _context.Users.ToListAsync(); // Fetch all users
+            return View(users); // Returning a collection of users
         }
+
 
         // GET: User/Details/5
         public async Task<IActionResult> Details(int? id)
