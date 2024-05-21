@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Digital_Wallet.Data;
 using Digital_Wallet.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Digital_Wallet.Controllers
 {
+    [Authorize]
     public class UserController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -20,56 +22,33 @@ namespace Digital_Wallet.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult Register ()
         {
             return View(new User());
         }
         [HttpPost]
+        [AllowAnonymous]
         public IActionResult Register(User user)
         {
+            if (_context.Users.Any(u => u.Email == user.Email))
+            {
+                ModelState.AddModelError("Email", "Email is already in use.");
+            }
             if (ModelState.IsValid)
             {
                 _context.Add(user);
                 _context.SaveChanges();
-                return RedirectToAction("Login", "User");
+                return RedirectToAction("Login", "Access");
             }
             return View(user);
         }
 
-        [HttpGet]
-        public IActionResult Login()
-        {
-            return View("Login");
-        }
-        [HttpPost]
-        public IActionResult Login(Account model)
-        {
-            if (ModelState.IsValid)
-            {
-                var user = _context.Users.FirstOrDefault(u => u.Email == model.Email);
-                if (user != null && user.Password == model.Password)
-                {
-                    HttpContext.Session.SetString("Name", user.FirstName);
-                    HttpContext.Session.SetInt32("Id", user.UserId);
-
-                    return RedirectToAction("Index", "Home");
-                }
-                else
-                {
-                    ModelState.AddModelError("", "Wrong Email Or Passwrod");
-                }
-            }
-            return View(model);
-        }
-
+        
         // GET: User
         public async Task<IActionResult> Index()
         {
             var Name = HttpContext.Session.GetString("Name");
-            if (string.IsNullOrEmpty(Name))
-            {
-                return RedirectToAction("Register", "User");
-            }
             return View(await _context.Users.ToListAsync());
         }
 

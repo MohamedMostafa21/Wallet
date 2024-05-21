@@ -1,5 +1,6 @@
 using Digital_Wallet.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.Cookies;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -12,6 +13,14 @@ options.UseSqlServer(builder.Configuration.GetConnectionString("MyConnection")))
 //Register Syncfusion license
 Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1NBaF5cWWFCf1FpRmJGdld5fUVHYVZUTXxaS00DNHVRdkdnWXpfdnVWQmheWERzXEE=");
 
+//authentcation and session 
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+.AddCookie(option =>
+ {
+     option.LoginPath = "/Access/Login";
+     option.ExpireTimeSpan = TimeSpan.FromMinutes(20);
+ });
 //Session
 builder.Services.AddSession(
     options => {
@@ -34,11 +43,12 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseAuthentication();
 
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Access}/{action=Login}/{id?}");
 app.UseSession();
 app.Run();

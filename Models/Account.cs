@@ -17,6 +17,7 @@ namespace Digital_Wallet.Models
         [Required(ErrorMessage = "Please Enter a Password")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
+        public bool KeepLoggedIn { get; set; }
     }
       
 }

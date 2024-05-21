@@ -7,9 +7,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Digital_Wallet.Models;
 using Digital_Wallet.Data;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace Digital_Wallet.Controllers
 {
+    [Authorize]
     public class CategoryController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -22,67 +25,76 @@ namespace Digital_Wallet.Controllers
         // GET: Category
         public async Task<IActionResult> Index()
         {
-            var Name = HttpContext.Session.GetString("Name");
-            if (string.IsNullOrEmpty(Name))
+            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            if (userId == null)
             {
-                return RedirectToAction("Register", "User");
-            }
-            return View(await _context.Categories.ToListAsync());
-        }
-
-        // GET: Category/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
+                return Unauthorized();
             }
 
-            var category = await _context.Categories
-                .FirstOrDefaultAsync(m => m.CategoryId == id);
-            if (category == null)
-            {
-                return NotFound();
-            }
+            var categories = await _context.Categories
+                .Where(c => c.UserId == userId)
+                .ToListAsync();
 
-            return View(category);
+            return View(categories);
         }
 
         // GET: Category/CreateOrEdit
-        public IActionResult CreateOrEdit(int id =0)
+        public IActionResult CreateOrEdit(int id = 0)
         {
-            // If nothing sent
+            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            if (userId == null)
+            {
+                return Unauthorized();
+            }
+
             if (id == 0)
             {
                 return View(new Category());
             }
             else
             {
-                return View(_context.Categories.Find(id));
+                var category = _context.Categories.FirstOrDefault(c => c.CategoryId == id && c.UserId == userId);
+                if (category == null)
+                {
+                    return NotFound();
+                }
+                return View(category);
             }
         }
 
         // POST: Category/CreateOrEdit
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateOrEdit([Bind("CategoryId,Title,Type,Icon")] Category category)
         {
+            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            if (userId == null)
+            {
+                return Unauthorized();
+            }
+
+            category.UserId = userId;
+
             if (ModelState.IsValid)
             {
-                // If it is 0 then it's Create so Add else it's Edit so Udpate
-                if(category.CategoryId == 0)
+                if (category.CategoryId == 0)
                 {
                     _context.Add(category);
                 }
                 else
                 {
+                    var existingCategory = await _context.Categories.FindAsync(category.CategoryId);
+                    if (existingCategory == null || existingCategory.UserId != userId)
+                    {
+                        return NotFound();
+                    }
                     _context.Update(category);
                 }
+
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
             return View(category);
         }
 
@@ -94,8 +106,14 @@ namespace Digital_Wallet.Controllers
                 return NotFound();
             }
 
+            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            if (userId == null)
+            {
+                return Unauthorized();
+            }
+
             var category = await _context.Categories
-                .FirstOrDefaultAsync(m => m.CategoryId == id);
+                .FirstOrDefaultAsync(m => m.CategoryId == id && m.UserId == userId);
             if (category == null)
             {
                 return NotFound();
@@ -109,13 +127,21 @@ namespace Digital_Wallet.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var category = await _context.Categories.FindAsync(id);
-            if (category != null)
+            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            if (userId == null)
             {
-                _context.Categories.Remove(category);
+                return Unauthorized();
             }
 
+            var category = await _context.Categories.FindAsync(id);
+            if (category == null || category.UserId != userId)
+            {
+                return NotFound();
+            }
+
+            _context.Categories.Remove(category);
             await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
 
@@ -123,5 +149,6 @@ namespace Digital_Wallet.Controllers
         {
             return _context.Categories.Any(e => e.CategoryId == id);
         }
+
     }
 }

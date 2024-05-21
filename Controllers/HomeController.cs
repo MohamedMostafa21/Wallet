@@ -1,9 +1,12 @@
 ﻿using Digital_Wallet.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 namespace Digital_Wallet.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -12,22 +15,19 @@ namespace Digital_Wallet.Controllers
         {
             _logger = logger;
         }
-
         public IActionResult Index()
         {
-            var Name =  HttpContext.Session.GetString("Name");
-            if (string.IsNullOrEmpty(Name))
-            {
-                return RedirectToAction("Register","User");
-            }
             return View();
         }
-
         public IActionResult Privacy()
         {
             return View();
         }
-
+        public async Task<IActionResult> LogOut ()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Login","Access");
+        }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
