@@ -1,6 +1,7 @@
 ﻿@model Digital_Wallet.Models.Category
 
 @{
+    ViewData["PageTitle"] = Model.CategoryId == 0 ? "Create New Category" : "Edit Category";
 }
 
 <div class="row">

@@ -23,7 +23,7 @@ namespace Digital_Wallet.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Dashboard");
             }
             return View();
         }
@@ -46,7 +46,7 @@ namespace Digital_Wallet.Controllers
 
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
 
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Dashboard");
             }
 
             ViewData["ValidateMessage"] = "Invalid email or password.";

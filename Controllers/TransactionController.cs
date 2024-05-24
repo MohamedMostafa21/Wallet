@@ -29,10 +29,28 @@ namespace Digital_Wallet.Controllers
             return View(transactions);
         }
 
-        public IActionResult CreateOrEdit()
+        public IActionResult CreateOrEdit(int id =0)
         {
             FillCategories();
-            return View(new Transaction());
+            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            if (userId == null)
+            {
+                return Unauthorized();
+            }
+
+            if (id == 0)
+            {
+                return View(new Transaction { UserId = userId });
+            }
+            else
+            {
+                var transaction = _context.Transactions.FirstOrDefault(c => c.TransactionId == id && c.UserId == userId);
+                if (transaction == null)
+                {
+                    return NotFound();
+                }
+                return View(transaction);
+            }
         }
 
         [HttpPost]
@@ -78,7 +96,8 @@ namespace Digital_Wallet.Controllers
         [NonAction]
         public void FillCategories()
         {
-            var categories = _context.Categories.ToList();
+            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var categories = _context.Categories.Where(t => t.UserId == userId).ToList();
             ViewBag.Categories = categories;
         }
     }
