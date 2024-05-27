@@ -1,9 +1,140 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@using System.Security.Claims
+﻿
 @{
+    List<Object> menuItems = new List<Object>();
+
+    menuItems.Add(new
+    {
+        text = "General",
+        separator = true,
+    });
+    menuItems.Add(new
+    {
+        text = "Dashboard",
+        url = "/",
+        iconCss = "fa-solid fa-box",
+    });
+    menuItems.Add(new
+    {
+        text = "Categories",
+        url = "/Category/index",
+        iconCss = "fa-solid fa-folder-closed",
+    });
+    menuItems.Add(new
+    {
+        text = "Transactions",
+        iconCss = "fa-solid fa-arrow-right-arrow-left",
+        url = "/Transaction/index"
+    });
+    menuItems.Add(new
+    {
+        text = "Quotes",
+        iconCss = "fa-solid fa-quote-right",
+        url = "/Quotes/index"
+    });
+    menuItems.Add(new
+    {
+        text = "Login",
+        url = "/Access/login",
+        iconCss = "fas fa-sign-in-alt" 
+    });
+    menuItems.Add(new
+    {
+        text = "Logout",
+        url = "/home/logout",
+        iconCss = "fas fa-sign-out-alt",
+    });
+    @if (User.Identity.IsAuthenticated)
+    {
+        var userEmail = User.FindFirst(ClaimTypes.Email)?.Value;
+        if (userEmail == "Gnsh@admin.com")
+        {
+            menuItems.Add(new
+            {
+                text = "Admin Panel",
+                separator = true,
+            });
+            menuItems.Add(new
+            {
+                text = "Users",
+                url = "/User/Index",
+                iconCss = "fas fa-users"
+            });
+        }
+    }
+    menuItems.Add(new
+    {
+        text = "Extra features",
+        separator = true,
+    });
+    menuItems.Add(new
+    {
+        text = "Planned Expenses",
+        iconCss = "fas fa-calendar-alt",
+        url = "javascript:void(0);"
+    });
+    menuItems.Add(new
+    {
+        text = "Send Money",
+        iconCss = "fas fa-money-bill-wave",
+        url = "javascript:void(0);" 
+    });
+
 }
 
-<ejs-sidebar id="sidebar" width ="290px"> 
-    
+<ejs-sidebar id="sidebar" width="290px" enableDock dockSize="100px" target=".dock-target" enableGestures="false">
+    <e-content-template>
+        <div class="logo-wrapper">
+             <div class="app-logo">
+                <img src="~/favicon.ico" />
+            </div>
+            <h6 class="mb-0"> Wallet</h6>
+
+            <div class="w-100"></div>
+            <i id="sidebar-toggler" class="fa-solid"></i>
+        </div>
+        <div class="profile-wrapper">
+        @if (User.Identity.IsAuthenticated)
+        {
+            var userEmail = User.FindFirst(ClaimTypes.Email)?.Value;
+            var profilePictureUrl = "";
+            var firstName = User.FindFirst(ClaimTypes.Name)?.Value;
+            var lastName = User.FindFirst(ClaimTypes.Surname)?.Value;
+
+            switch (userEmail)
+            {
+                case "Gnsh@admin.com":
+                    profilePictureUrl = "~/pp.jpg";
+                    break;
+                case "Reda@Gmail.com":
+                    profilePictureUrl = "~/reda.jpg";
+                    break;
+                default:
+                    profilePictureUrl = "~/user.png";
+                    break;
+            }
+            <img class="profile-pic" src="@Url.Content(profilePictureUrl)" alt="Profile Picture" />
+            <div class="titles d-flex flex-column ps-3">
+                <h6 class="mb-0">@firstName @lastName</h6>
+            </div>
+        }
+        </div>
+
+
+
+        <ejs-menu id="menu"
+                  items="menuItems"
+                  orientation="Vertical"
+                  hamburgerMode></ejs-menu>
+
+    </e-content-template>
 </ejs-sidebar>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        dockBar = document.getElementById('sidebar').ej2_instances[0];
+        document.getElementById('sidebar-toggler').onclick = function () {
+            dockBar.toggle();
+        };
+    });
+</script>

@@ -35,11 +35,18 @@ namespace Digital_Wallet.Controllers
             if (user != null)
             {
                 var claims = new List<Claim>
-        {
-            new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
-            new Claim(ClaimTypes.Email, user.Email),
-            // You can add more claims here as needed
-        };
+                {
+                    new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
+                    new Claim(ClaimTypes.Email, user.Email),
+                    new Claim(ClaimTypes.Name, user.FirstName), // Claim for first name
+                    new Claim(ClaimTypes.Surname, user.LastName), 
+                    // You can add more claims here as needed
+                };
+
+                if (user.Email == "Gnshr@admin.com") // Add a condition for the specific user
+                {
+                    claims.Add(new Claim(ClaimTypes.Name, "specificusername")); // Add a claim for the specific user
+                }
 
                 var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                 var principal = new ClaimsPrincipal(identity);
@@ -53,6 +60,5 @@ namespace Digital_Wallet.Controllers
             return View();
         }
 
-     
     }
 }

@@ -12,7 +12,7 @@ using System.Security.Claims;
 
 namespace Digital_Wallet.Controllers
 {
-    [Authorize]
+    [Authorize(Policy = "OnlySpecificUserPolicy")]
     public class UserController : Controller
     {
         private readonly ApplicationDbContext _context;

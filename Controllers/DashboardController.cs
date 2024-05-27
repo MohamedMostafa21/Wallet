@@ -39,13 +39,13 @@ namespace Digital_Wallet.Controllers
 
             // Balance
             int Balance = TotalIncome - TotalExpense;
-            CultureInfo culture =CultureInfo.CreateSpecificCulture("en-US");
+            CultureInfo culture = CultureInfo.CreateSpecificCulture("en-US");
             culture.NumberFormat.CurrencyNegativePattern = 1;
 
-            ViewBag.Balance = String.Format(culture,"{0:C0}",Balance);
+            ViewBag.Balance = String.Format(culture, "{0:C0}", Balance);
 
 
-            //Doughnut Chart Expense By Category
+            //Donut Chart Expense By Category
             ViewBag.DountData = WantedTransactions.Where(i => i.Category.Type == "Expense" && i.UserId == userId)
             .GroupBy(j => j.Category.CategoryId)
             .Select(k => new
@@ -54,10 +54,55 @@ namespace Digital_Wallet.Controllers
                 amount = k.Sum(j => j.Amount),
                 formattedAmount = k.Sum(j => j.Amount).ToString("CO"),
             })
-            .ToList();
+            .OrderByDescending(l => l.amount).ToList();
 
+            // Chart Data Income And Xxpenses
 
+            // Income Data
+            List<ChartData> IncomeData = WantedTransactions
+                .Where(c => c.Category.Type == "Income")
+                .GroupBy(d => d.Date)
+                .Select(k => new ChartData()
+                {
+                    day = k.First().Date.ToString("dd-MMM"),
+                    income = k.Sum(l => l.Amount)
+                })
+                .ToList();
+
+            // Expense Data
+            List<ChartData> ExpenseData = WantedTransactions
+                .Where(c => c.Category.Type == "Expense")
+                .GroupBy(d => d.Date)
+                .Select(k => new ChartData()
+                {
+                    day = k.First().Date.ToString("dd-MMM"),
+                    expense = k.Sum(l => l.Amount)
+                })
+                .ToList();
+
+            //AllData
+            string[] Last7Days = Enumerable.Range(0, 7)
+                .Select(i => StartDate.AddDays(i).ToString("dd-MMM"))
+                .ToArray();
+
+            ViewBag.ChartData = from day in Last7Days
+                                join income in IncomeData on day equals income.day into dayIncomeJoined
+                                from income in dayIncomeJoined.DefaultIfEmpty()
+                                join expense in ExpenseData on day equals expense.day into expenseJoined
+                                from expense in expenseJoined.DefaultIfEmpty()
+                                select new
+                                {
+                                    day = day,
+                                    income = income == null ? 0 : income.income,
+                                    expense = expense == null ? 0 : expense.expense,
+                                };
             return View();
         }
+    }
+    public class ChartData
+    {
+        public string day { get; set; }
+        public int income { get; set; }
+        public int expense { get; set; }
     }
 }

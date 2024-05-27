@@ -1,3 +1,32 @@
+:root {
+    --background-color: #12161d;
+    --text-color: #fff;
+    --sidebar-background: #12161d;
+    --navbar-background: rgba(18, 22, 29);
+    --profile-background: rgba(72, 84, 95, 0.12);
+    --widget-background: #1a222b;
+    --widget-summary-background: #222b33;
+    --btn-hover-background: #48545f14;
+    --category-row-background: #1a222b;
+    --category-altrow-background: #18202b;
+}
+
+[data-theme="light"] {
+    --background-color: #f0f0f0; /* Light gray background */
+    --text-color: #000; /* Black text color */
+    --sidebar-background: #ffffff;
+    --navbar-background: #ffffff;
+    --profile-background: rgba(0, 0, 0, 0.05);
+    --widget-background: #ffffff;
+    --widget-summary-background: #f1f3f5;
+    --btn-hover-background: #ced4da;
+    --category-row-background: #ffffff;
+    --category-row-text: #fff;
+    --category-altrow-background: #f8f9fa;
+}
+    [data-theme="light"] e-row .e-rowcell .e-templatecell .e-tbar-btn {
+        color: #000; /* Black text color */
+    }
 html {
     font-size: 14px;
 }
@@ -15,25 +44,28 @@ html {
 
 body {
     margin-bottom: 60px;
-    background-color: #12161d;
-    color: #fff;
+    background-color: var(--background-color);
+    color: var(--text-color);
 }
 
 .main-content {
     margin-left: 290px;
 }
-/*Side Bar*/
+
+/* Side Bar */
 #sidebar {
-    background-color: #12161d;
-    border-right: 1px dashed rgba(75,82,85,0.24);
+    background-color: var(--sidebar-background);
+    border-right: 1px dashed rgba(75, 82, 85, 0.24);
     padding: 10px 20px;
 }
+
 /* Button */
 .btn:focus, .btn:active {
     outline: none !important;
     box-shadow: none;
 }
-/* Hyper Link*/
+
+/* Hyper Link */
 .no-a-decoration, .no-a-decoration:hover {
     text-decoration: none;
     color: inherit;
@@ -43,29 +75,72 @@ body {
     font-size: x-large;
 }
 
+/* Navbar */
+nav.navbar {
+    background-color: var(--navbar-background);
+}
+
+    nav.navbar i {
+        padding: 10px;
+        border-radius: 50%;
+        font-size: 1.2rem;
+        cursor: pointer;
+    }
+
+        nav.navbar i:hover, nav.navbar img:hover {
+            cursor: pointer;
+            background-color: var(--btn-hover-background);
+            transform: scale(1.05) translateZ(0px);
+        }
+
+nav.navbar {
+    margin-left: 290px;
+}
+
+/* Profile Pic */
+img.profile-pic {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+}
+
+.profile-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: var(--profile-background);
+    padding: 16px 20px;
+    border-radius: 12px;
+    cursor: pointer;
+    margin-bottom: 30px;
+}
+
+    .profile-wrapper .titles {
+        line-height: 1;
+    }
 /* Custom dark mode CSS for EJS Grid */
 #categories {
-    border: 2px solid #333; /* Dark border */
-    border-radius: 5px; /* Rounded corners */
-    background-color: #1a222b; /* Dark background */
-    color: #ffffff; /* White text color */
+    border: 2px solid #333;
+    border-radius: 5px;
+    background-color: var(--category-row-background);
+    color: var(--text-color);
 }
 
     /* Custom styling for header */
     #categories .e-gridheader {
-        background-color: #12161d; /* Darker background for header */
+        background-color: var(--background-color); /* Darker background for header */
         border-bottom: 1px solid #333; /* Darker border */
         font-weight: bold; /* Bold font for header */
     }
 
     /* Custom styling for grid rows */
     #categories .e-row {
-        background-color: #1a222b; /* Dark background for rows */
+        background-color: var(--category-row-background); /* Dark background for rows */
     }
 
         /* Custom styling for alternate rows */
         #categories .e-row.e-altrow {
-            background-color: #18202b; /* Slightly darker background for alternate rows */
+            background-color: var(--category-altrow-background); /* Slightly darker background for alternate rows */
         }
 
         /* Custom styling for grid cells */
@@ -88,48 +163,47 @@ body {
                 background-color: #0056b3; /* Darker blue on hover */
             }
 
-
-/* Category Type Button Style*/
+/* Category Type Button Style */
 .e-btn-group.custom-rbt-group {
     width: 100%;
-    display: flex; /* Ensures buttons are in a row */
+    display: flex;
 }
 
-    /* Style for each button within the button group */
     .e-btn-group.custom-rbt-group input.ebtn[type="radio"],
     .e-btn-group.custom-rbt-group label.ebtn {
         width: 50%;
-        padding: 10px; /* Add padding for better appearance */
-        border: none; /* Remove default button border */
-        cursor: pointer; /* Change cursor to pointer on hover */
-        color: white; /* White text color */
-        text-align: center; /* Center text */
-        text-decoration: none; /* Remove default underline */
-        display: inline-block; /* Ensures button displays properly */
-        font-size: 16px; /* Font size */
-        transition-duration: 0.4s; /* Smooth transition */
+        padding: 10px;
+        border: none;
+        cursor: pointer;
+        color: white;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        transition-duration: 0.4s;
     }
-        /* Hover effect */
+
         .e-btn-group.custom-rbt-group input.ebtn[type="radio"]:hover + label.ebtn,
         .e-btn-group.custom-rbt-group label.ebtn:hover {
-            background-color: #45a049; /* Darker green on hover */
+            background-color: #45a049;
         }
-/* Specific styling for each button */
+
 #radioleft:checked + label.ebtn {
-    background-color: #ff0000; /* Red for expense when checked */
+    background-color: #ff0000;
 }
 
 #radiomiddle:checked + label.ebtn {
-    background-color: #008000; /* Green for income when checked */
+    background-color: #008000;
 }
+
 /* Widget */
 .widget {
     border-radius: 1rem;
-    background-color: #1a222b;
+    background-color: var(--widget-background);
 }
 
     .widget.summary > div:first-child {
-        background-color: #222b33;
+        background-color: var(--widget-summary-background);
         padding: 1rem;
         border-top-left-radius: 1rem;
         border-bottom-left-radius: 1rem;
@@ -154,4 +228,585 @@ body {
     .widget.chart {
         padding: 5px;
     }
+
+/* Logo */
+.logo-wrapper {
+    height: 70px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
+
+.app-logo {
+    padding: 10px 10px;
+}
+
+/* Menu */
+#menu {
+    width: 100% !important;
+    background-color: inherit;
+    overflow: hidden;
+}
+
+    #menu .e-menu-item:not(.e-separator) {
+        height: 50px;
+        border-radius: 4px;
+    }
+
+    #menu .e-menu-item {
+        box-sizing: border-box;
+    }
+
+        #menu .e-menu-item a {
+            width: 100%;
+            color: rgb(171, 163, 152);
+            font-weight: 300;
+            padding: 7px 5px;
+            box-sizing: border-box;
+        }
+
+    #menu .e-anchor-wrap {
+        display: inline-block;
+    }
+
+    #menu .e-menu-item .e-anchor-wrap span.e-menu-icon {
+        color: rgb(171, 163, 152);
+    }
+
+    #menu .e-menu-item.e-separator {
+        border: none;
+        margin: 5px 5px;
+        text-transform: uppercase;
+        font-weight: bold;
+        font-size: 13px;
+        color: #65da41;
+    }
+
+        #menu .e-menu-item.e-separator:not(:first-child) {
+            margin-top: 35px;
+        }
+
+/* SideBar */
+#sidebar {
+    background-color: var(--sidebar-background);
+    border-right: 1px dashed rgba(75, 82, 85, 0.24);
+    padding: 10px 20px;
+    overflow: hidden;
+}
+
+    #sidebar .e-menu-wrapper {
+        width: 100%;
+        background-color: inherit;
+    }
+
+#sidebar-toggler {
+    padding: 10px;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+    #sidebar-toggler:hover {
+        cursor: pointer;
+        background-color: var(--btn-hover-background);
+        transform: scale(1.05) translateZ(0px);
+    }
+
+#sidebar.e-close {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+    #sidebar.e-close .app-logo {
+        display: none;
+    }
+
+    #sidebar.e-close .e-anchor-wrap, #sidebar.e-close .e-menu-item.e-menu-caret-icon {
+        font-size: 0px;
+    }
+
+    #sidebar.e-close .profile-wrapper .titles {
+        display: none !important;
+    }
+
+    #sidebar.e-open .e-anchor-wrap,
+    #sidebar.e-close .e-menu-icon, #sidebar.e-open .e-menu-icon {
+        visibility: visible;
+    }
+
+#sidebar.e-open .profile-wrapper .titles, #sidebar.e-open .app-logo {
+    display: flex;
+}
+
+#sidebar.e-sidebar.e-right.e-close {
+    visibility: visible;
+    transform: translateX(0%);
+}
+
+#sidebar.e-open #sidebar-toggler:before {
+    content: '\f100'
+}
+
+#sidebar.e-close #sidebar-toggler:before {
+    content: '\f101'
+}
+.theme-toggle-button {
+    background-color: #ffffff; /* White background */
+    color: #333333; /* Dark text color */
+    border: 2px solid #333333; /* Dark border */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px 20px; /* Add padding for better appearance */
+    font-size: 16px; /* Font size */
+    cursor: pointer; /* Change cursor to pointer on hover */
+    transition-duration: 0.4s; /* Smooth transition */
+}
+
+    .theme-toggle-button:hover {
+        background-color: #333333; /* Dark background on hover */
+        color: #ffffff; /* White text color on hover */
+    }
+    .theme-toggle-button:active {
+        background-color: #ffffff; /* White background when pressed */
+        color: #333333; /* Dark text color when pressed */
+    }
+
+/* Custom dark mode CSS for Transaction View */
+#transaction-view {
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+    #transaction-view .widget {
+        background-color: var(--widget-background);
+    }
+
+        #transaction-view .widget i {
+            color: var(--text-color);
+        }
+
+/* Custom dark mode CSS for Transaction Table */
+#transactions {
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+    #transactions .e-gridheader {
+        background-color: var(--background-color); /* Darker background for header */
+        color: var(--text-color); /* Dark text color */
+    }
+
+    #transactions .e-row {
+        background-color: var(--category-row-background); /* Dark background for rows */
+    }
+
+        #transactions .e-row.e-altrow {
+            background-color: var(--category-altrow-background); /* Slightly darker background for alternate rows */
+        }
+
+    #transactions .e-cell {
+        color: var(--text-color); /* Dark text color */
+    }
+
+/* Custom dark mode CSS for Category View */
+#category-view {
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+    #category-view .widget {
+        background-color: var(--widget-background);
+    }
+
+        #category-view .widget i {
+            color: var(--text-color);
+        }
+
+/* Custom dark mode CSS for Transaction View */
+#transaction-view {
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+    #transaction-view .widget {
+        background-color: var(--widget-background);
+    }
+
+        #transaction-view .widget i {
+            color: var(--text-color);
+        }
+
+/* Custom dark mode CSS for Transaction Table */
+#transactions {
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+    #transactions .e-gridheader {
+        background-color: var(--background-color); /* Darker background for header */
+        color: var(--text-color); /* Dark text color */
+    }
+
+    #transactions .e-row {
+        background-color: var(--category-row-background); /* Dark background for rows */
+        color: var(--text-color); /* Dark text color */
+    }
+
+        #transactions .e-row.e-altrow {
+            background-color: var(--category-altrow-background); /* Slightly darker background for alternate rows */
+            color: var(--text-color); /* Dark text color */
+        }
+
+    #transactions .e-cell {
+        color: var(--text-color); /* Dark text color */
+    }
+
+/* Custom dark mode CSS for Category View */
+#category-view {
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+    #category-view .widget {
+        background-color: var(--widget-background);
+    }
+
+        #category-view .widget i {
+            color: var(--text-color);
+        }
+/* Custom dark mode CSS for Category View */
+#category-view {
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+    #category-view .widget {
+        background-color: var(--widget-background);
+    }
+
+        #category-view .widget i {
+            color: var(--text-color);
+        }
+
+/* Custom dark mode CSS for Category Table */
+#categories {
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+    #categories .e-gridheader {
+        background-color: var(--background-color); /* Darker background for header */
+        color: var(--text-color); /* Dark text color */
+    }
+
+    #categories .e-row {
+        background-color: var(--category-row-background); /* Dark background for rows */
+        color: var(--text-color); /* Dark text color */
+    }
+
+        #categories .e-row.e-altrow {
+            background-color: var(--category-altrow-background); /* Slightly darker background for alternate rows */
+            color: var(--text-color); /* Dark text color */
+        }
+
+    #categories .e-cell {
+        color: var(--text-color); /* Dark text color */
+    }
+
+/* Adjust background and text color of EJS components */
+.ejs-datetimepicker, .ejs-dropdownlist, .ejs-numerictextbox, .ejs-textbox, .ejs-button {
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+    /* Adjust hover and active states for EJS components */
+    .ejs-datetimepicker:hover, .ejs-dropdownlist:hover, .ejs-numerictextbox:hover, .ejs-textbox:hover, .ejs-button:hover,
+    .ejs-datetimepicker:active, .ejs-dropdownlist:active, .ejs-numerictextbox:active, .ejs-textbox:active, .ejs-button:active {
+        background-color: var(--btn-hover-background);
+        color: var(--text-color);
+    }
+
+    /* Adjust header color for EJS textbox */
+    .ejs-textbox .e-float-text.e-label.e-float-above {
+        color: var(--text-color);
+    }
+/* Custom dark mode CSS for Summary Widgets */
+.widget.summary {
+    background-color: var(--widget-background);
+    color: var(--text-color);
+}
+
+    .widget.summary i {
+        color: var(--text-color);
+    }
+
+    .widget.summary .lead {
+        color: var(--text-color);
+    }
+
+    .widget.summary .display-6 {
+        color: var(--text-color);
+    }
+
+/* Custom dark mode CSS for Doughnut Chart */
+.widget.chart {
+    background-color: var(--widget-background);
+    color: var(--text-color);
+}
+
+    .widget.chart .title h5 {
+        color: var(--text-color);
+    }
+
+/* Adjust background and text color of EJS components in Doughnut Chart */
+.ejs-accumulationchart, ejs-chart {
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+    /* Adjust header and legend text color in EJS components */
+    .ejs-accumulationchart .e-title, ejs-chart .e-title, .e-legend-text {
+        color: var(--text-color);
+    }
+/* Login Style */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.login-box {
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
+}
+
+    .login-box h1 {
+        margin-bottom: 20px;
+        font-size: 2rem;
+        text-align: center;
+        color: #333;
+    }
+
+    .login-box .form-group {
+        margin-bottom: 20px;
+    }
+
+    .login-box .form-control {
+        border: none;
+        border-bottom: 1px solid #ccc;
+        padding: 10px;
+        width: 100%;
+        font-size: 1rem;
+        transition: border-color 0.3s;
+    }
+
+        .login-box .form-control:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+
+    .login-box .btn-primary {
+        background-color: #3498db;
+        border: none;
+        width: 100%;
+        padding: 12px;
+        font-size: 1.1rem;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+    }
+
+        .login-box .btn-primary:hover {
+            background-color: #2980b9;
+        }
+
+.text-small {
+    font-size: 0.9rem;
+    color: #777;
+}
+/* Signup Style */
+.signup-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.signup-box {
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
+}
+
+    .signup-box h1 {
+        margin-bottom: 20px;
+        font-size: 2rem;
+        text-align: center;
+        color: #333;
+    }
+
+    .signup-box .form-group {
+        margin-bottom: 20px;
+    }
+
+    .signup-box .form-control {
+        border: none;
+        border-bottom: 1px solid #ccc;
+        padding: 10px;
+        width: 100%;
+        font-size: 1rem;
+        transition: border-color 0.3s;
+    }
+
+        .signup-box .form-control:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+
+    .signup-box .btn-primary {
+        background-color: #3498db;
+        border: none;
+        width: 100%;
+        padding: 12px;
+        font-size: 1.1rem;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+    }
+
+        .signup-box .btn-primary:hover {
+            background-color: #2980b9;
+        }
+
+.text-small {
+    font-size: 0.9rem;
+    color: #777;
+}
+/* Quote Style */
+.quote-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 20px;
+}
+
+.quote-box {
+    background-color: rgba(26, 34, 43, 0.9); /* Slightly lighter background for the widget */
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5); /* Increased shadow for better distinction */
+    max-width: 600px;
+    width: 100%;
+    text-align: center;
+    transition: transform 0.3s;
+}
+
+    .quote-box:hover {
+        transform: scale(1.02);
+    }
+
+    .quote-box h1 {
+        margin-bottom: 20px;
+        font-size: 2.5rem;
+        color: var(--text-color);
+        font-weight: bold;
+    }
+
+.quote-text {
+    font-size: 1.75rem;
+    color: var(--text-color);
+    margin-bottom: 20px;
+    font-family: 'Georgia', serif;
+    font-style: italic;
+    position: relative;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+    background-color: rgba(42, 46, 51, 0.7); /* Slightly lighter background for the box */
+}
+
+    .quote-text::before, .quote-text::after {
+        content: '"';
+        font-size: 2.5rem;
+        color: var(--btn-hover-background);
+        position: absolute;
+    }
+
+    .quote-text::before {
+        left: -20px;
+        top: -10px;
+    }
+
+    .quote-text::after {
+        right: -20px;
+        bottom: -10px;
+    }
+
+.quote-box .btn-primary {
+    background: linear-gradient(135deg, var(--navbar-background) 0%, var(--btn-hover-background) 100%);
+    border: none;
+    padding: 12px 20px;
+    font-size: 1.1rem;
+    border-radius: 5px;
+    transition: background 0.3s, color 0.3s, transform 0.3s;
+    color: var(--text-color);
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+    .quote-box .btn-primary:hover {
+        background: linear-gradient(135deg, var(--btn-hover-background) 0%, var(--navbar-background) 100%);
+        color: var(--text-color);
+        transform: translateY(-3px);
+    }
+
+/* Dark Mode Specific Styles */
+[data-theme="dark"] .quote-box {
+    background-color: rgba(40, 44, 52, 0.9); /* Lighter background for the widget */
+    color: var(--text-color-dark);
+}
+
+[data-theme="dark"] .quote-text {
+    background-color: rgba(18, 22, 29, 0.8); /* Semi-transparent background for dark mode */
+    color: var(--text-color-dark);
+}
+
+[data-theme="dark"] .quote-box .btn-primary {
+    background: linear-gradient(135deg, var(--navbar-background-dark) 0%, var(--btn-hover-background-dark) 100%);
+    color: var(--text-color-dark);
+}
+
+    [data-theme="dark"] .quote-box .btn-primary:hover {
+        background: linear-gradient(135deg, var(--btn-hover-background-dark) 0%, var(--navbar-background-dark) 100%);
+        color: var(--text-color-dark);
+    }
+
+/* Light Mode Specific Styles */
+[data-theme="light"] .quote-box {
+    background-color: rgba(255, 255, 255, 0.85); /* Slightly lighter and semi-transparent */
+    color: var(--text-color-light);
+}
+
+[data-theme="light"] .quote-text {
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background for light mode */
+    color: var(--text-color-light);
+}
+
+[data-theme="light"] .quote-box .btn-primary {
+    background: linear-gradient(135deg, var(--navbar-background-light) 0%, var(--btn-hover-background-light) 100%);
+    color: var(--text-color-light);
+}
+
+    [data-theme="light"] .quote-box .btn-primary:hover {
+        background: linear-gradient(135deg, var(--btn-hover-background-light) 0%, var(--navbar-background-light) 100%);
+        color: var(--text-color-light);
+    }
+
+

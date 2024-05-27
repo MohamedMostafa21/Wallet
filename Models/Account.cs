@@ -18,6 +18,7 @@ namespace Digital_Wallet.Models
         [DataType(DataType.Password)]
         public string Password { get; set; }
         public bool KeepLoggedIn { get; set; }
+
     }
       
 }

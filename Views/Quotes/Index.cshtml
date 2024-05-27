@@ -1,0 +1,23 @@
+﻿@{
+    ViewData["Title"] = "Quote of the Day";
+}
+
+<div class="quote-container">
+    <div class="quote-box">
+        <h1> Money Wisdoms </h1>
+        <p id="quote-text" class="quote-text">Click the button to see today's quote!</p>
+        <button id="quote-button" class="btn btn-primary mt-3">See Quote of the Day</button>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.getElementById("quote-button").addEventListener("click", function () {
+            fetch('/Quotes/GetRandomQuote')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("quote-text").innerText = data;
+                });
+        });
+    </script>
+}

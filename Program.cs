@@ -1,6 +1,8 @@
 using Digital_Wallet.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Security.Claims;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -21,6 +23,15 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
      option.LoginPath = "/Access/Login";
      option.ExpireTimeSpan = TimeSpan.FromMinutes(20);
  });
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("OnlySpecificUserPolicy", policy =>
+    {
+        policy.RequireAuthenticatedUser();
+        policy.RequireClaim(ClaimTypes.Email, "Gnsh@admin.com"); // Make sure this matches with your actual username
+    });
+});
+
 /*
 //Session
 builder.Services.AddSession(
